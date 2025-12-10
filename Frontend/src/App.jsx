@@ -34,7 +34,9 @@ const LucideLock = (props) => <IconWrapper {...props}><rect width="18" height="1
 const LucideUserPlus = (props) => <IconWrapper {...props}><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" x2="20" y1="8" y2="14"/><line x1="23" x2="17" y1="11" y2="11"/></IconWrapper>;
 
 // --- CONFIGURATION ---
-const API_BASE = 'http://localhost:5000/api'; 
+// EDITED: Using a safer check for import.meta.env to prevent compilation errors
+// in environments that don't fully support ES2020 modules (like some previewers).
+const API_BASE = (import.meta.env && import.meta.env.VITE_API_URL) || 'http://localhost:5000/api';
 
 /* --- DEFAULT DATA (Fallback) --- */
 const DEFAULT_PROJECTS = [
@@ -715,8 +717,8 @@ function AdminPanel({
         
         {/* Mobile Header */}
         <div className="md:hidden p-4 flex justify-between items-center border-b border-slate-800">
-             <span className="font-bold">Admin Panel</span>
-             <button onClick={onLogout}><LucideLogOut/></button>
+              <span className="font-bold">Admin Panel</span>
+              <button onClick={onLogout}><LucideLogOut/></button>
         </div>
 
         <nav className="flex-1 px-4 space-y-2 py-4 md:py-0 overflow-x-auto md:overflow-visible flex md:block gap-2 md:gap-0">
@@ -815,7 +817,7 @@ function ProjectManager({ projects, onAdd, onDelete }) {
           </div>
         ))}
         {projects.length === 0 && (
-            <div className="col-span-full text-center text-gray-400 italic">No projects added yet.</div>
+           <div className="col-span-full text-center text-gray-400 italic">No projects added yet.</div>
         )}
       </div>
     </div>
